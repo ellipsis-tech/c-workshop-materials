@@ -13,32 +13,32 @@ int main(void) {
     {
         printf("Test 1\n");
         int value = 113;
-        printf("Expected:Pass\n");
-        printf("Actual  :%s\n", is_circular(value) ? "Pass" : "Fail");
+        printf("Expected:true\n");
+        printf("Actual  :%s\n", is_circular(value) ? "true" : "false");
         printf("\n");
     }
 
     {
         printf("Test 2\n");
         int value = 200;
-        printf("Expected:Fail\n");
-        printf("Actual  :%s\n", is_circular(value) ? "Pass" : "Fail");
+        printf("Expected:false\n");
+        printf("Actual  :%s\n", is_circular(value) ? "true" : "false");
         printf("\n");
     }
 
     {
         printf("Test 3\n");
         int value = 199933;
-        printf("Expected:Pass\n");
-        printf("Actual  :%s\n", is_circular(value) ? "Pass" : "Fail");
+        printf("Expected:true\n");
+        printf("Actual  :%s\n", is_circular(value) ? "true" : "false");
         printf("\n");
     }
 
     {
         printf("Test 4\n");
         int value = 0;
-        printf("Expected:Fail\n");
-        printf("Actual  :%s\n", is_circular(value) ? "Pass" : "Fail");
+        printf("Expected:false\n");
+        printf("Actual  :%s\n", is_circular(value) ? "true" : "false");
         printf("\n");
     }
 }
