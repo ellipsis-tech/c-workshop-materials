@@ -35,44 +35,44 @@ int main(void) {
     {
         printf("Test 1\n");
         int values[SIZE_FIFTEEN] = {0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0};
-        printf("Before:");
+        printf("Before  :");
         print_array(values, SIZE_FIFTEEN);
-        printf("After:");
+        printf("After   :");
         segregate(values, SIZE_FIFTEEN);
         print_array(values, SIZE_FIFTEEN);
-        printf("\n");
+        printf("Expected:0 0 0 0 0 0 0 0 1 1 1 1 1 1 1\n\n");
     }
 
     {
-        printf("Test 1\n");
+        printf("Test 2\n");
         int values[SIZE_TEN] = {0, 1, 0, 1, 0, 1, 1, 0, 0, 1};
-        printf("Before:");
+        printf("Before  :");
         print_array(values, SIZE_TEN);
-        printf("After:");
+        printf("After   :");
         segregate(values, SIZE_TEN);
         print_array(values, SIZE_TEN);
-        printf("\n");
+        printf("Expected:0 0 0 0 0 1 1 1 1 1\n\n");
     }
 
     {
         printf("Test 3\n");
         int values[SIZE_SIX] = {0, 0, 1, 0, 0, 0};
-        printf("Before:");
+        printf("Before  :");
         print_array(values, SIZE_SIX);
-        printf("After:");
+        printf("After   :");
         segregate(values, SIZE_SIX);
         print_array(values, SIZE_SIX);
-        printf("\n");
+        printf("Expected:0 0 0 0 0 1\n\n");
     }
 
         {
         printf("Test 4\n");
         int values[SIZE_ONE] = {1};
-        printf("Before:");
+        printf("Before  :");
         print_array(values, SIZE_ONE);
-        printf("After:");
+        printf("After   :");
         segregate(values, SIZE_ONE);
         print_array(values, SIZE_ONE);
-        printf("\n");
+        printf("Expected:1\n\n");
     }
 }
