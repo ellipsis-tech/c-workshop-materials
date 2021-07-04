@@ -1,33 +1,57 @@
 #include <stdio.h>
-#include <string.h>
-#include <stdbool.h>
+#include <math.h>
 
-int main(void) {
+int jump_search(int values[], int size, int e) {
+    if (size == 0) {
+        return 0;
+    }
     
-    char input[100];
-    printf("Enter the string to be sorted: ");
-    scanf("%s", input);
+    int idx = 0;
+    int flag = 0;
+    int step = sqrt(size); //optimal block size to be skipped = sqrt(size)
 
-    // Get the actual length of the string
-    int len = strlen(input);
-    bool was_swapping_done;
-
-    do {
-        was_swapping_done = false;
-
-        // Loop through the length of the string
-        for (int i = 0; i < len - 1; i++) {
-            if (input[i] > input[i+1]) {
-                was_swapping_done = true;
-                char temp = input[i+1];
-                input[i+1] = input[i];
-                input[i] = temp;
+    for (int i = 0 ; i < size ; i += (step - 1)) {
+        if (e < values[i]) {
+            for (int j = i - step ; j < i ; j++) {
+                if (values[j] == e) {
+                    flag = 1;
+                    idx = j;
+                    break;
+                }
             }
         }
 
-        // terminate if there has not been any swap (means it is sorted)
-    } while (was_swapping_done);
+        //breaks out of the loop once the element is found
+        if (flag == 1) {
+            break;
+        }
+    }
 
-    printf("Sorted string: %s\n", input);
+    return idx;
+}
 
+int main(void) {
+    {
+        printf("Test 1\n");
+        int values[] = {1, 2, 3, 4};
+        printf("Expected:2\n");
+        printf("Actual  :%d\n", jump_search(values, sizeof(values) / sizeof(values[0]), 3));
+        printf("\n");
+    }
+
+    {
+        printf("Test 2\n");
+        int values[] = {5, 10, 11, 19, 29, 30, 33, 34, 40, 45, 49, 50, 53, 55, 60, 66};
+        printf("Expected:9\n");
+        printf("Actual  :%d\n", jump_search(values, sizeof(values) / sizeof(values[0]), 45));
+        printf("\n");
+    }
+
+    {
+        printf("Test 3\n");
+        int values[] = {};
+        printf("Expected:0\n");
+        printf("Actual  :%d\n", jump_search(values, sizeof(values) / sizeof(values[0]), 33));
+        printf("\n");
+    }
 }

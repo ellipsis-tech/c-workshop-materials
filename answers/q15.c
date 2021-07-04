@@ -1,74 +1,140 @@
-#include <stdio.h>
 #include <stdbool.h>
-#include <math.h>
+#include <stdio.h>
+#include <string.h>
 
-bool is_prime(int number) {
-    for (int i = 2 ; i < number ; i++) {
-        if (number % i == 0) {
-            return false;
-        }
+bool is_balanced(char *input) {
+
+    int input_len = strlen(input);
+
+    if (input_len == 0) {
+        return true;
     }
+
+    char stack[input_len];
+    stack[0] = '\0'; 
+    // so that we do not need to deal with boundary case
+
+    int stack_idx = 1;
+
+    for (int i = 0; i < input_len; i++) {
+
+        if (input[i] == ' ' || (input[i] >= 'a' && input[i] <= 'z') || (input[i] >= 'A' && input[i] <= 'Z')) {
+            
+            // Do nothing
+
+        } else if (input[i] == '{' || input[i] == '[' || input[i] == '(') {
+
+            // Add to the stack
+            stack[stack_idx++] = input[i];
+
+        } else if (stack_idx == -1) {
+
+            return false;
+
+        } else if (input[i] == ']' && stack[stack_idx - 1] != '[') {
+
+            return false;
+
+        } else if (input[i] == '(' && stack[stack_idx - 1] != ')') {
+
+            return false;
+
+        } else {
+
+            // Remove from the stack
+            stack_idx--;
+
+        }
+
+    }
+
     return true;
 }
 
-bool is_circular(int value) {
-    if (value == 0 || value == 1) {
-        return false;
-    }
-
-    int num = value;
-    int temp = value;
-    int ctr = 0;
-
-    //counts the no. of rotations of the value that needs to be checked for prime number
-    while (temp > 0) {
-        temp %= 10;
-        temp /= 10;
-        ctr++;
-    }
-
-    for (int i = 0 ; i < ctr ; i++) {
-        if (!is_prime(num)) {
-            return false;
-        }
-
-        int rem = num % 10;
-        num /= 10;
-        num += (rem * pow(10, ctr - 1));
-    }
-    return true;
-}
 
 int main(void) {
+    int testcase = 1;
     {
-        printf("Test 1\n");
-        int value = 113;
+        char *input = "{[abc()]}";
+        printf("Test %d:\n", testcase++);
         printf("Expected:true\n");
-        printf("Actual  :%s\n", is_circular(value) ? "true" : "false");
+        printf("Actual  :%s\n", is_balanced(input) ? "true" : "false");
         printf("\n");
     }
 
     {
-        printf("Test 2\n");
-        int value = 200;
+        char *input = "[(])";
+        printf("Test %d:\n", testcase++);
         printf("Expected:false\n");
-        printf("Actual  :%s\n", is_circular(value) ? "true" : "false");
+        printf("Actual  :%s\n", is_balanced(input) ? "true" : "false");
         printf("\n");
     }
 
     {
-        printf("Test 3\n");
-        int value = 199933;
+        char *input = "[](((a(b(c())))aaaaa))";
+        printf("Test %d:\n", testcase++);
         printf("Expected:true\n");
-        printf("Actual  :%s\n", is_circular(value) ? "true" : "false");
+        printf("Actual  :%s\n", is_balanced(input) ? "true" : "false");
         printf("\n");
     }
 
     {
-        printf("Test 4\n");
-        int value = 0;
-        printf("Expected:false\n");
-        printf("Actual  :%s\n", is_circular(value) ? "true" : "false");
+        char *input = "[]()[][]}";
+        printf("Test %d:\n", testcase++);
+        printf("Expected:true\n");
+        printf("Actual  :%s\n", is_balanced(input) ? "true" : "false");
         printf("\n");
     }
+
+    {
+        char *input = "[[]]Z(Z)[Z]";
+        printf("Test %d:\n", testcase++);
+        printf("Expected:true\n");
+        printf("Actual  :%s\n", is_balanced(input) ? "true" : "false");
+        printf("\n");
+    }
+
+    
+    {
+        char *input = "[(([[]]]]";
+        printf("Test %d:\n", testcase++);
+        printf("Expected:false\n");
+        printf("Actual  :%s\n", is_balanced(input) ? "true" : "false");
+        printf("\n");
+    }
+
+    {
+        char *input = "[][][]]";
+        printf("Test %d:\n", testcase++);
+        printf("Expected:false\n");
+        printf("Actual  :%s\n", is_balanced(input) ? "true" : "false");
+        printf("\n");
+    }
+
+    {
+        char *input = "";
+        printf("Test %d:\n", testcase++);
+        printf("Expected:true\n");
+        printf("Actual  :%s\n", is_balanced(input) ? "true" : "false");
+        printf("\n");
+    }
+
+    {
+        char *input = " ";
+        printf("Test %d:\n", testcase++);
+        printf("Expected:true\n");
+        printf("Actual  :%s\n", is_balanced(input) ? "true" : "false");
+        printf("\n");
+    }
+
+
+    {
+        char *input = "AAABBBCCCaaabbbccc";
+        printf("Test %d:\n", testcase++);
+        printf("Expected:true\n");
+        printf("Actual  :%s\n", is_balanced(input) ? "true" : "false");
+        printf("\n");
+    }
+
+
 }
