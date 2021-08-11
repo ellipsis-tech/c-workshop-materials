@@ -14,14 +14,16 @@ int main(void) {
     int testcase = 1;
     {
         char *input = "{[abc()]}";
+        // { and } are not valid
         printf("Test %d:\n", testcase++);
-        printf("Expected:true\n");
+        printf("Expected:false\n");
         printf("Actual  :%s\n", is_balanced(input) ? "true" : "false");
         printf("\n");
     }
 
     {
         char *input = "[(])";
+        // Opening another bracket before closing 
         printf("Test %d:\n", testcase++);
         printf("Expected:false\n");
         printf("Actual  :%s\n", is_balanced(input) ? "true" : "false");
@@ -38,8 +40,9 @@ int main(void) {
 
     {
         char *input = "[]()[][]}";
+        // } is not valid
         printf("Test %d:\n", testcase++);
-        printf("Expected:true\n");
+        printf("Expected:false\n");
         printf("Actual  :%s\n", is_balanced(input) ? "true" : "false");
         printf("\n");
     }

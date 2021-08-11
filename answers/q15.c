@@ -39,7 +39,7 @@ bool is_balanced(char *input) {
 
             return false;
 
-        } else {
+        } else if (input[i] == ')' || input[i] == ']') {
 
             // Remove from the stack
             stack_idx--;
