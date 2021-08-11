@@ -22,7 +22,7 @@ bool is_balanced(char *input) {
             
             // Do nothing
 
-        } else if (input[i] == '{' || input[i] == '[' || input[i] == '(') {
+        } else if (input[i] == '[' || input[i] == '(') {
 
             // Add to the stack
             stack[stack_idx++] = input[i];
@@ -35,7 +35,7 @@ bool is_balanced(char *input) {
 
             return false;
 
-        } else if (input[i] == '(' && stack[stack_idx - 1] != ')') {
+        } else if (input[i] == ')' && stack[stack_idx - 1] != '(') {
 
             return false;
 
@@ -48,7 +48,11 @@ bool is_balanced(char *input) {
 
     }
 
-    return true;
+    if (stack_idx == 1) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 
@@ -56,14 +60,16 @@ int main(void) {
     int testcase = 1;
     {
         char *input = "{[abc()]}";
+        // { and } are not valid
         printf("Test %d:\n", testcase++);
-        printf("Expected:true\n");
+        printf("Expected:false\n");
         printf("Actual  :%s\n", is_balanced(input) ? "true" : "false");
         printf("\n");
     }
 
     {
         char *input = "[(])";
+        // Opening another bracket before closing 
         printf("Test %d:\n", testcase++);
         printf("Expected:false\n");
         printf("Actual  :%s\n", is_balanced(input) ? "true" : "false");
@@ -80,8 +86,9 @@ int main(void) {
 
     {
         char *input = "[]()[][]}";
+        // } is not valid
         printf("Test %d:\n", testcase++);
-        printf("Expected:true\n");
+        printf("Expected:false\n");
         printf("Actual  :%s\n", is_balanced(input) ? "true" : "false");
         printf("\n");
     }
