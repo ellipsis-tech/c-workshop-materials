@@ -1,72 +1,62 @@
-#include <stdbool.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 
-bool is_balanced(char *input) {
-
-    int input_len = strlen(input);
-
-    if (input_len == 0) {
+bool is_matching(char open, char close) {
+    if ((open == '(' && close == ')') || 
+        (open == '[' && close == ']') ||
+        (open == '{' && close == '}')) {
         return true;
     }
-
-    char stack[input_len];
-    stack[0] = '\0'; 
-    // so that we do not need to deal with boundary case
-
-    int stack_idx = 1;
-
-    for (int i = 0; i < input_len; i++) {
-
-        if (input[i] == ' ' || (input[i] >= 'a' && input[i] <= 'z') || (input[i] >= 'A' && input[i] <= 'Z')) {
-            
-            // Do nothing
-
-        } else if (input[i] == '[' || input[i] == '(') {
-
-            // Add to the stack
-            stack[stack_idx++] = input[i];
-
-        } else if (stack_idx == -1) {
-
-            return false;
-
-        } else if (input[i] == ']' && stack[stack_idx - 1] != '[') {
-
-            return false;
-
-        } else if (input[i] == ')' && stack[stack_idx - 1] != '(') {
-
-            return false;
-
-        } else if (input[i] == ')' || input[i] == ']') {
-
-            // Remove from the stack
-            stack_idx--;
-
-        }
-
-    }
-
-    if (stack_idx == 1) {
-        return true;
-    } else {
-        return false;
-    }
+    return false;
 }
 
+bool is_balanced(char *string) {
+
+    int string_len = strlen(string);
+    if (string_len == 0) {
+        return true;
+    }
+
+    // Create a stack of size == length of string
+    char stack[string_len];
+    int top = 0;
+
+    int i = 0;
+    while (i < string_len) {
+        char curr = string[i++];
+
+        // If current is an opening bracket, push into stack
+        if (curr == '(' || curr == '[' || curr == '{') {
+            stack[top++] = curr;
+
+        } else if (curr == ')' || curr == ']' || curr == '}') {
+
+            // if stack is empty OR current does not match top of stack, return false
+            if (top == 0 || !is_matching(stack[top - 1], curr)) {
+                return false;
+            } else {
+                top--;
+            }
+        }
+    }
+    return top == 0 ? true : false;
+}
 
 int main(void) {
     int testcase = 1;
+
+    // TEST CASE 1
     {
         char *input = "{[abc()]}";
         // { and } are not valid
         printf("Test %d:\n", testcase++);
-        printf("Expected:false\n");
+        printf("Expected:true\n");
         printf("Actual  :%s\n", is_balanced(input) ? "true" : "false");
         printf("\n");
     }
 
+    // TEST CASE 2
     {
         char *input = "[(])";
         // Opening another bracket before closing 
@@ -76,6 +66,7 @@ int main(void) {
         printf("\n");
     }
 
+    // TEST CASE 3
     {
         char *input = "[](((a(b(c())))aaaaa))";
         printf("Test %d:\n", testcase++);
@@ -84,6 +75,7 @@ int main(void) {
         printf("\n");
     }
 
+    // TEST CASE 4
     {
         char *input = "[]()[][]}";
         // } is not valid
@@ -93,6 +85,7 @@ int main(void) {
         printf("\n");
     }
 
+    // TEST CASE 5
     {
         char *input = "[[]]Z(Z)[Z]";
         printf("Test %d:\n", testcase++);
@@ -101,7 +94,7 @@ int main(void) {
         printf("\n");
     }
 
-    
+    // TEST CASE 6
     {
         char *input = "[(([[]]]]";
         printf("Test %d:\n", testcase++);
@@ -110,6 +103,7 @@ int main(void) {
         printf("\n");
     }
 
+    // TEST CASE 7
     {
         char *input = "[][][]]";
         printf("Test %d:\n", testcase++);
@@ -118,6 +112,7 @@ int main(void) {
         printf("\n");
     }
 
+    // TEST CASE 8
     {
         char *input = "";
         printf("Test %d:\n", testcase++);
@@ -126,6 +121,7 @@ int main(void) {
         printf("\n");
     }
 
+    // TEST CASE 9
     {
         char *input = " ";
         printf("Test %d:\n", testcase++);
@@ -134,7 +130,7 @@ int main(void) {
         printf("\n");
     }
 
-
+    // TEST CASE 10
     {
         char *input = "AAABBBCCCaaabbbccc";
         printf("Test %d:\n", testcase++);
